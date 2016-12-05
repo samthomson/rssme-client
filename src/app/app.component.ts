@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpService } from './http.service';
 
 @Component({
@@ -10,6 +10,8 @@ import { HttpService } from './http.service';
 export class AppComponent implements OnInit {
 
     bAuthenticated: boolean = false;
+    sToken: string = '';
+    jUser: any;
 
     constructor(private httpService: HttpService) { }
 
@@ -29,6 +31,20 @@ export class AppComponent implements OnInit {
     ngOnInit() {
         this.httpService.authStatusChanged.subscribe(
             (bAuthed: boolean) => this.bAuthenticated = bAuthed
-        )
+        );
+        this.httpService.authTokenChanged.subscribe(
+            (sToken: string) => this.sToken = sToken
+        );
+        this.httpService.userChanged.subscribe(
+            (jUser: any) => this.jUser = jUser
+        );
+    }
+
+    onLogIn() {
+        this.httpService.attemptLogin();
+    }
+
+    onGetAuthed() {
+        this.httpService.getUser();
     }
 }
