@@ -5,7 +5,11 @@
 <a (click)="onCheck()" style="cursor: pointer">check auth status</a>
 <hr/>
 <p>Token: {{sToken}}</p>
-<a (click)="onLogIn()" style="cursor: pointer">log in</a>
+<!--<a (click)="onLogIn()" style="cursor: pointer">log in</a>-->
 <hr/>
 <p>user: {{jUser | json}}</p>
-<a (click)="onGetAuthed()" style="cursor: pointer">get authed</a>
+<a (click)="onGetUser()" style="cursor: pointer">get authed</a>
+<hr>
+<a *ngIf="bAuthenticated" (click)="onLogOut()" stlye="cursor: pointer">log out</a>
+<hr>
+<router-outlet></router-outlet>

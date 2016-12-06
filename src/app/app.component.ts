@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpService } from './http.service';
+import { Router } from '@angular/router';
+import { HttpService, AuthService } from './services';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers: [HttpService]
+  providers: [HttpService, AuthService]
 })
 export class AppComponent implements OnInit {
 
@@ -13,7 +14,10 @@ export class AppComponent implements OnInit {
     sToken: string = '';
     jUser: any;
 
-    constructor(private httpService: HttpService) { }
+    constructor(
+        private router: Router,
+        private httpService: HttpService,
+        private authService: AuthService) { }
 
 	/*
     onStore() {
@@ -25,14 +29,14 @@ export class AppComponent implements OnInit {
 	}
     */
 	onCheck() {
-		this.httpService.getAuthStatus();
+		this.bAuthenticated = this.authService.isLoggedIn();
 	}
 
     ngOnInit() {
-        this.httpService.authStatusChanged.subscribe(
+        this.authService.authStatusChanged.subscribe(
             (bAuthed: boolean) => this.bAuthenticated = bAuthed
         );
-        this.httpService.authTokenChanged.subscribe(
+        this.authService.authTokenChanged.subscribe(
             (sToken: string) => this.sToken = sToken
         );
         this.httpService.userChanged.subscribe(
@@ -41,10 +45,15 @@ export class AppComponent implements OnInit {
     }
 
     onLogIn() {
-        this.httpService.attemptLogin();
+        //this.authService.attemptLogin();
     }
 
-    onGetAuthed() {
+    onGetUser() {
         this.httpService.getUser();
+    }
+
+    onLogOut() {
+        this.authService.logOut();
+        this.router.navigate(['/']);
     }
 }
