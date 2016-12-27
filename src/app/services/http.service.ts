@@ -15,6 +15,11 @@ export class HttpService {
     jUser: any;
     userChanged = new EventEmitter<any>();
 
+    feeds: any;
+    feedsChanged = new EventEmitter<any>();
+
+    sAPI_BASE: string = 'http://rssmeapi.dev';
+
 
 
     constructor(private http: Http) {
@@ -33,7 +38,7 @@ export class HttpService {
   }
 */
     getAuthStatus() {
-        return this.http.get('http://rssmeapi.dev/app/auth/authenticated')
+        return this.http.get(this.sAPI_BASE + '/app/auth/authenticated')
             .map(
                 (response: Response) => response.json()
             )
@@ -49,7 +54,7 @@ export class HttpService {
         let headers = new Headers({ 'Authorization': 'Bearer ' + this.sToken });
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.get('http://rssmeapi.dev/app/auth/getauthed', options)
+        return this.http.get(this.sAPI_BASE + '/app/auth/getauthed', options)
             .map(
                 (response: Response) => response.json()
             )
@@ -62,4 +67,50 @@ export class HttpService {
             );
     }
 
+    getAll() {
+        let headers = new Headers({ 'Authorization': 'Bearer ' + this.sToken });
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.get(this.sAPI_BASE + '/app/feedsandcategories', options)
+            .map(
+                (response: Response) => response.json()
+            )
+            .subscribe(
+                (data) => {
+                    console.log("got feeds: " + data);
+                    this.feeds = data;
+                    this.feedsChanged.emit(this.feeds);
+                }
+            );
+    }
+    addFeed(oNewFeed) {
+
+        let url = this.sAPI_BASE + '/app/feeds/new';
+        let authToken = localStorage.getItem('auth_token');
+        let headers = new Headers({'Content-Type': 'application/x-www-form-urlencoded'});
+        headers.append('Authorization', `Bearer ${authToken}`);
+
+        let options = new RequestOptions({ headers: headers});
+
+
+        let urlSearchParams = new URLSearchParams();
+
+        urlSearchParams.append('name', oNewFeed.name);
+        urlSearchParams.append('url', oNewFeed.url);
+
+        let body = urlSearchParams.toString()
+
+        return this.http.post(
+            url,
+            body,
+            options
+        )
+        .map(
+            (response: Response) => {
+                let iNewFeedId = response.json().response.id;
+                //this.companyBrandingDataChanged.emit(this.branding);
+                return iNewFeedId;
+            }
+        );
+    }
 }

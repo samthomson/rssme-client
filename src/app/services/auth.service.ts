@@ -1,5 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Headers, Response, URLSearchParams, RequestOptions } from '@angular/http';
+import { Router, CanActivate } from '@angular/router';
 
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map'
@@ -18,7 +19,10 @@ export class AuthService {
 
 
 
-    constructor(private http: Http) {
+    constructor(
+        private http: Http,
+        private router: Router
+    ) {
         this.authStatus = !!localStorage.getItem('currentUser');
     }
 
@@ -37,11 +41,11 @@ export class AuthService {
                 (response: Response) => {
 
                     let data = response.json();
-                    
+
                     let token = data.token;
                     let authStatus = data.authStatus;
 
-                    if (token) {
+                    if (authStatus && token) {
                         // set token property
                         this.sToken = token;
 
@@ -70,5 +74,9 @@ export class AuthService {
         localStorage.removeItem('currentUser');
         this.authStatus = false;
         this.authStatusChanged.emit(this.authStatus);
+        // 'logout' the user (delete their local token and redirect them)
+
+        this.router.navigate(['/login']);
+
     }
 }

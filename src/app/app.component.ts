@@ -33,6 +33,16 @@ export class AppComponent implements OnInit {
 	}
 
     ngOnInit() {
+        // main 'entry point' of the app
+
+        // let's check and see if the user is 'logged in' (has an auth token in local storage)
+        if(this.authService.isLoggedIn())
+        {
+            this.httpService.getAll();
+        }
+
+        // if they have it, make a call to the server for their feeds, and in the process find out if their token is still active
+
         this.authService.authStatusChanged.subscribe(
             (bAuthed: boolean) => this.bAuthenticated = bAuthed
         );

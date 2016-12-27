@@ -1,3 +1,13 @@
 <p>
   home feed, only when logged in
 </p>
+<hr>
+<h3>feeds</h3>
+<hr>
+<h3>add feed</h3>
+
+<form (ngSubmit)="onAddFeed(frmAddFeed)" #frmAddFeed="ngForm" >
+    <input type="text" name="name" [(ngModel)]="oAddFeed.name">
+    <input type="text" name="url" [(ngModel)]="oAddFeed.url">
+    <button type="submit">add</button>
+</form>

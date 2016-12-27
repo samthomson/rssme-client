@@ -33,13 +33,13 @@ export class LoginComponent implements OnInit {
 
         this.authService.attemptLogin(this.loginEmail, this.loginPassword)
             .subscribe(result => {
+                this.bAttemptingLogin = false;
                 if (result === true) {
                     // login successful
                     this.router.navigate(['/']);
                 } else {
                     // login failed
                     this.error = 'Email or password is incorrect';
-                    this.bAttemptingLogin = false;
                 }
             });
 
