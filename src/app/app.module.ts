@@ -10,13 +10,16 @@ import { HomeComponent } from './home/home.component';
 import { routing } from './app.routing';
 import { AuthGuard } from './guards/auth.guard';
 import { AuthService, HttpService } from './services/index';
+import { RegisterComponent } from './register/register.component';
 
 
 @NgModule({
     declarations: [
         AppComponent,
         LoginComponent,
-        HomeComponent
+        HomeComponent,
+        RegisterComponent,
+        RegisterComponent
     ],
     imports: [
         BrowserModule,

@@ -32,16 +32,19 @@ export class LoginComponent implements OnInit {
         this.bAttemptingLogin = true;
 
         this.authService.attemptLogin(this.loginEmail, this.loginPassword)
-            .subscribe(result => {
-                this.bAttemptingLogin = false;
-                if (result === true) {
-                    // login successful
-                    this.router.navigate(['/']);
-                } else {
-                    // login failed
+            .subscribe(
+                result => {
+                    this.bAttemptingLogin = false;
+                    if (result === true) {
+                        // login successful
+                        this.router.navigate(['/']);
+                    }
+                },
+                err => {
+                    this.bAttemptingLogin = false;
                     this.error = 'Email or password is incorrect';
                 }
-            });
+            );
 
         /*
           .subscribe(
