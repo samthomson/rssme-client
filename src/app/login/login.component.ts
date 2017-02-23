@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services';
 
@@ -7,7 +7,7 @@ import { AuthService } from '../services';
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
     constructor(
         private router: Router,
@@ -19,11 +19,7 @@ export class LoginComponent implements OnInit {
 
     private bAttemptingLogin: boolean = false;
 
-    error = '';
-
-    ngOnInit() {
-    }
-
+    private error = '';
 
 
     onSubmit(f) {
@@ -45,25 +41,6 @@ export class LoginComponent implements OnInit {
                     this.error = 'Email or password is incorrect';
                 }
             );
-
-        /*
-          .subscribe(
-              data => {
-                  console.log("response from update company subscribe: " + data);
-                  this.company = cTemp;
-                  this.bSaving = false;
-                  this.bErrorSaving = false;
-
-                  this.toastr.success('Company data updated!', 'Saved');
-              },
-              err => {
-                  this.bSaving = false;
-                  this.bErrorSaving = true;
-                  // todo: visually handle an error saving...
-                  this.toastr.error('There was a problem saving', 'Not saved');
-              }
-          );
-          */
       }
 
 }

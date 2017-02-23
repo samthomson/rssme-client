@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpService } from './../services';
+import { Router } from '@angular/router';
+import { HttpService, AuthService } from './../services';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit {
-
 
     private oAddFeed;
     private oEmptyAddFeed = {
@@ -15,16 +14,23 @@ export class HomeComponent implements OnInit {
         'url': ''
     };
 
+    private aFeedItems = [];
+
     constructor(
-        private httpService: HttpService
-    ) {
-
-    }
-
-
+        private router: Router,
+        private httpService: HttpService,
+        private authService: AuthService
+    ) { }
 
     ngOnInit() {
         this.resetAddFeedForm();
+
+        this.httpService.getFeedItems()
+            .subscribe(
+                (data) => {
+                    this.aFeedItems = data;
+                }
+            );
     }
 
     resetAddFeedForm() {
@@ -37,6 +43,10 @@ export class HomeComponent implements OnInit {
         //this.resetAddFeedForm();
         this.httpService.addFeed(this.oAddFeed)
             .subscribe(data => console.log('got response?'));
+    }
+
+    onLogOut() {
+        this.authService.logOut();
     }
 
 }

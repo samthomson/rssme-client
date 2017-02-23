@@ -17,7 +17,8 @@ export class AppComponent implements OnInit {
     constructor(
         private router: Router,
         private httpService: HttpService,
-        private authService: AuthService) { }
+        private authService: AuthService
+    ) { }
 
 	/*
     onStore() {
@@ -36,10 +37,10 @@ export class AppComponent implements OnInit {
         // main 'entry point' of the app
 
         // let's check and see if the user is 'logged in' (has an auth token in local storage)
-        if(this.authService.isLoggedIn())
-        {
-            this.httpService.getAll();
-        }
+        // if(this.authService.isLoggedIn())
+        // {
+        //     this.httpService.getFeedItems();
+        // }
 
         // if they have it, make a call to the server for their feeds, and in the process find out if their token is still active
 
@@ -60,10 +61,5 @@ export class AppComponent implements OnInit {
 
     onGetUser() {
         this.httpService.getUser();
-    }
-
-    onLogOut() {
-        this.authService.logOut();
-        this.router.navigate(['/']);
     }
 }

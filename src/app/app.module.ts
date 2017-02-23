@@ -9,6 +9,8 @@ import { HomeComponent } from './home/home.component';
 
 import { routing } from './app.routing';
 import { AuthGuard } from './guards/auth.guard';
+import { GuestGuard } from './guards/guest.guard';
+
 import { AuthService, HttpService } from './services/index';
 import { RegisterComponent } from './register/register.component';
 
@@ -29,6 +31,7 @@ import { RegisterComponent } from './register/register.component';
     ],
     providers: [
         AuthGuard,
+        GuestGuard,
         AuthService,
         HttpService
     ],

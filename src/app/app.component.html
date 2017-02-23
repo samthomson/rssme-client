@@ -1,3 +1,4 @@
+<!--
 <h1>
   Check API methods
 </h1>
@@ -5,11 +6,12 @@
 <a (click)="onCheck()" style="cursor: pointer">check auth status</a>
 <hr/>
 <p>Token: {{sToken}}</p>
-<!--<a (click)="onLogIn()" style="cursor: pointer">log in</a>-->
+
 <hr/>
 <p>user: {{jUser | json}}</p>
 <a (click)="onGetUser()" style="cursor: pointer">get authed</a>
 <hr>
 <a *ngIf="bAuthenticated" (click)="onLogOut()" stlye="cursor: pointer">log out</a>
 <hr>
+-->
 <router-outlet></router-outlet>

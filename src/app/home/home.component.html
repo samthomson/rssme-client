@@ -1,8 +1,15 @@
 <p>
   home feed, only when logged in
 </p>
+<a (click)="onLogOut()" stlye="cursor: pointer">log out</a>
 <hr>
-<h3>feeds</h3>
+<h3>feeds ({{aFeedItems.length}})</h3>
+<!--{{aFeedItems | json}} -->
+<div *ngIf="aFeedItems.length > 0">
+    <div *ngFor="let item of aFeedItems">
+        <a target="_blank" href="{{item.url}}">{{item.title}}</a>
+    </div>
+</div>
 <hr>
 <h3>add feed</h3>
 

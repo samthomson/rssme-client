@@ -1,3 +1,26 @@
-<p>
-  register works!
-</p>
+
+<form class="ui form" (ngSubmit)="onRegisterSubmit(frmRegister)" #frmRegister="ngForm">
+    <div class="field">
+        <label>Email</label>
+        <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            [(ngModel)]="registerEmail"
+            >
+    </div>
+    <div class="field">
+        <label>Password</label>
+        <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            [(ngModel)]="registerPassword"
+            >
+    </div>
+    <button class="ui button" type="submit">Submit</button>
+</form>
+
+<ul *ngIf="errors.length > 0">
+    <li *ngFor="let error of errors">{{error}}</li>
+</ul>

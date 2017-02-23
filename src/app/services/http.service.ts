@@ -37,51 +37,53 @@ export class HttpService {
       return this.http.put('https://recipebook-27463.firebaseio.com/recipes.json', body, {headers: headers})
   }
 */
-    getAuthStatus() {
-        return this.http.get(this.sAPI_BASE + '/app/auth/authenticated')
-            .map(
-                (response: Response) => response.json()
-            )
-            .subscribe(
-                (data) => {
-                    this.authStatus = data.authStatus;
-                    this.authStatusChanged.emit(this.authStatus);
-                }
-            );
-    }
-    getUser() {
+    // getAuthStatus() {
+    //     return this.http.get(this.sAPI_BASE + '/app/auth/authenticated')
+    //         .map(
+    //             (response: Response) => response.json()
+    //         )
+    //         .subscribe(
+    //             (data) => {
+    //                 this.authStatus = data.authStatus;
+    //                 this.authStatusChanged.emit(this.authStatus);
+    //             }
+    //         );
+    // }
 
+    // getUser() {
+    //
+    //     let headers = new Headers({ 'Authorization': 'Bearer ' + this.sToken });
+    //     let options = new RequestOptions({ headers: headers });
+    //
+    //     return this.http.get(this.sAPI_BASE + '/app/auth/getauthed', options)
+    //         .map(
+    //             (response: Response) => response.json()
+    //         )
+    //         .subscribe(
+    //             (data) => {
+    //                 console.log("got data: " + data);
+    //                 this.jUser = data;
+    //                 this.userChanged.emit(this.jUser);
+    //             }
+    //         );
+    // }
+
+    getFeedItems() {
         let headers = new Headers({ 'Authorization': 'Bearer ' + this.sToken });
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.get(this.sAPI_BASE + '/app/auth/getauthed', options)
+        return this.http.get(this.sAPI_BASE + '/app/feeditems', options)
             .map(
-                (response: Response) => response.json()
-            )
-            .subscribe(
-                (data) => {
-                    console.log("got data: " + data);
-                    this.jUser = data;
-                    this.userChanged.emit(this.jUser);
-                }
-            );
-    }
-
-    getAll() {
-        let headers = new Headers({ 'Authorization': 'Bearer ' + this.sToken });
-        let options = new RequestOptions({ headers: headers });
-
-        return this.http.get(this.sAPI_BASE + '/app/feedsandcategories', options)
-            .map(
-                (response: Response) => response.json()
-            )
+                (response: Response) => response.json().feeditems
+            )/*
             .subscribe(
                 (data) => {
                     console.log("got feeds: " + data);
-                    this.feeds = data;
-                    this.feedsChanged.emit(this.feeds);
+                    // this.feeds = data;
+                    return data;
+                    // this.feedsChanged.emit(this.feeds);
                 }
-            );
+            )*/;
     }
     addFeed(oNewFeed) {
 

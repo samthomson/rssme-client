@@ -36,14 +36,24 @@ export class AuthService {
         jAuthParams.set('email', sEmail);
         jAuthParams.set('password', sPassword);
 
-        return this.http.get('http://rssmeapi.dev/app/auth/login', { search: jAuthParams })
+        let headers = new Headers();
+		headers.append('Content-Type', 'application/x-www-form-urlencoded');
+
+        let options = new RequestOptions({ headers: headers, withCredentials: false });
+
+
+        return this.http.post(
+            'http://rssmeapi.dev/app/auth/login',
+            jAuthParams.toString(),
+            options
+        )
             .map(
                 (response: Response) => {
 
                     let data = response.json();
 
                     let token = data.token;
-                    let authStatus = data.authStatus;
+                    let authStatus = data.authenticated;
 
                     if (authStatus && token) {
                         // set token property
@@ -68,6 +78,65 @@ export class AuthService {
                     }
             });
     }
+
+    attemptRegister(sEmail, sPassword): Observable<any>
+    {
+        let jAuthParams = new URLSearchParams();
+        jAuthParams.set('email', sEmail);
+        jAuthParams.set('password', sPassword);
+
+        let headers = new Headers();
+		headers.append('Content-Type', 'application/x-www-form-urlencoded');
+
+        let options = new RequestOptions({ headers: headers, withCredentials: false });
+
+        return this.http.post(
+            'http://rssmeapi.dev/app/auth/register',
+            jAuthParams.toString(),
+            options
+        )
+            .map(
+                (response: Response) => {
+                    console.log("resp");
+                    let data = response.json();
+
+                    let token = data.token;
+                    let authStatus = data.authStatus;
+                    let code = data.code;
+
+                    console.log("code: " + code);
+
+                    if(code === 422) {
+                        console.log("code 422: " + code);
+                        return {'successful': false, 'errors': data.errors};
+                    }
+
+                    if (code === 200 && token) {
+                        // set token property
+                        this.sToken = token;
+
+                        // store username and jwt token in local storage to keep user logged in between page refreshes
+                        localStorage.setItem('currentUser', token);
+
+                        //console.log("set token as: " + localStorage.getItem('currentUser'));
+
+                        this.authStatus = authStatus;
+                        this.authStatusChanged.emit(this.authStatus);
+
+                        this.sToken = token;
+                        this.authTokenChanged.emit(this.sToken);
+
+                        // return true to indicate successful register & login
+                        return {'successful': true};
+                    }else{
+                        // return false to indicate failed register
+                        return {'successful': false, 'errors': [{'unknown': 'unknown error'}]};
+                    }
+                }
+            );
+
+    }
+
 
     logOut()
     {
