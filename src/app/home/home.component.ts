@@ -35,6 +35,17 @@ export class HomeComponent implements OnInit {
                 }
             );
 
+        this.loadSubscriptions();
+
+        this.httpService.subscriptionsChanged.subscribe(
+            (data) => {
+                this.loadSubscriptions()
+            }
+        )
+    }
+
+    loadSubscriptions()
+    {
         this.httpService.getSubscriptions()
             .subscribe(
                 (data) => {

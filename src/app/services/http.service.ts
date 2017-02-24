@@ -18,6 +18,8 @@ export class HttpService {
     feeds: any;
     feedsChanged = new EventEmitter<any>();
 
+    subscriptionsChanged = new EventEmitter<any>();
+
     sAPI_BASE: string = 'http://rssmeapi.dev';
 
 
@@ -132,7 +134,17 @@ export class HttpService {
             options
         )
         .map(
-            (response: Response) => response.json()
+            (response: Response) => {
+
+                let aSubscriptions = response.json();
+
+                if(aSubscriptions.success)
+                {
+                    this.subscriptionsChanged.emit();
+                }
+
+                return aSubscriptions;
+            }
         );
     }
 }
