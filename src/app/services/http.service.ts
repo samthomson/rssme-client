@@ -78,17 +78,19 @@ export class HttpService {
             );
     }
 
-    getFeedItems(cursor = null)
+    getFeedItems(cursor, iFeedId = null)
     {
         let jFeedItemParams = new URLSearchParams();
 
         let headers = new Headers({ 'Authorization': 'Bearer ' + this.sToken });
 
 
-        if (typeof cursor !== 'undefined')
+        jFeedItemParams.set('cursor', cursor);
+
+        if (typeof iFeedId !== 'undefined')
         {
             // send cursor to back end to get items afte
-            jFeedItemParams.set('cursor', cursor);
+            jFeedItemParams.set('feed', iFeedId);
         }
         let options = new RequestOptions(
             {

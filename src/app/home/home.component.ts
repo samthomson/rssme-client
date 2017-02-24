@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit {
     modal: ModalComponent;
 
     private iPage = 1;
+    private iCurrentFeed = null;
 
     constructor(
         private router: Router,
@@ -27,7 +28,7 @@ export class HomeComponent implements OnInit {
     ngOnInit() {
         // this.resetAddFeedForm();
 
-        this.httpService.getFeedItems()
+        this.httpService.getFeedItems(this.iPage)
             .subscribe(
                 (data) => {
                     this.aFeedItems = data;
@@ -62,4 +63,18 @@ export class HomeComponent implements OnInit {
                 }
             );
     }
+
+    onLoadFeed(iFeedId)
+    {
+        // load feeditems for a specific feed
+        this.iPage = 1;
+        this.iCurrentFeed = iFeedId;
+        this.httpService.getFeedItems(this.iPage, this.iCurrentFeed)
+            .subscribe(
+                (data) => {
+                    this.aFeedItems = data;
+                }
+            );
+    }
+
 }
