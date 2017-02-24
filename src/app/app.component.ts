@@ -59,7 +59,7 @@ export class AppComponent implements OnInit {
         //this.authService.attemptLogin();
     }
 
-    onGetUser() {
-        this.httpService.getUser();
-    }
+    // onGetUser() {
+    //     this.httpService.getUser();
+    // }
 }

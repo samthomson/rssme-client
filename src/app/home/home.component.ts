@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpService, AuthService } from './../services';
+
+import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 @Component({
   selector: 'app-home',
@@ -8,13 +10,11 @@ import { HttpService, AuthService } from './../services';
 })
 export class HomeComponent implements OnInit {
 
-    private oAddFeed;
-    private oEmptyAddFeed = {
-        'name': '',
-        'url': ''
-    };
-
     private aFeedItems = [];
+    private aSubscriptions = [];
+
+    @ViewChild('myModal')
+    modal: ModalComponent;
 
     constructor(
         private router: Router,
@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.resetAddFeedForm();
+        // this.resetAddFeedForm();
 
         this.httpService.getFeedItems()
             .subscribe(
@@ -31,22 +31,20 @@ export class HomeComponent implements OnInit {
                     this.aFeedItems = data;
                 }
             );
+
+        this.httpService.getSubscriptions()
+            .subscribe(
+                (data) => {
+                    this.aSubscriptions = data;
+                }
+            );
     }
 
-    resetAddFeedForm() {
-        this.oAddFeed = this.oEmptyAddFeed;
-    }
-
-    onAddFeed(frmAddFeed) {
-        console.log("form submitted: ");
-        console.log(this.oAddFeed);
-        //this.resetAddFeedForm();
-        this.httpService.addFeed(this.oAddFeed)
-            .subscribe(data => console.log('got response?'));
-    }
+    // resetAddFeedForm() {
+    //     this.oAddFeed = this.oEmptyAddFeed;
+    // }
 
     onLogOut() {
         this.authService.logOut();
     }
-
 }

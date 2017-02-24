@@ -1,0 +1,25 @@
+
+
+<button type="button" class="btn btn-default" (click)="mdlAddFeed.open()">add feed</button>
+
+<modal #mdlAddFeed>
+    <modal-header [show-close]="true">
+        <h4 class="modal-title">Add a feed</h4>
+    </modal-header>
+    <modal-body>
+        <form (ngSubmit)="onAddFeed(frmAddFeed)" #frmAddFeed="ngForm" >
+            <input type="text" name="name" [(ngModel)]="oAddFeed.name" placeholder="name">
+            <input type="text" name="url" [(ngModel)]="oAddFeed.url" placeholder="feed url">
+            <button type="submit">add</button>
+        </form>
+
+        <ul *ngIf="errors.length > 0">
+            <li *ngFor="let error of errors">{{error}}</li>
+        </ul>
+
+
+    </modal-body>
+    <modal-footer>
+        <button type="button" class="btn btn-primary" (click)="onCloseAddFeedModal()">Close</button>
+    </modal-footer>
+</modal>

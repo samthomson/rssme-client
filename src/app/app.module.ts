@@ -13,6 +13,10 @@ import { GuestGuard } from './guards/guest.guard';
 
 import { AuthService, HttpService } from './services/index';
 import { RegisterComponent } from './register/register.component';
+import { AddFeedComponent } from './home/add-feed/add-feed.component';
+
+
+import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 
 @NgModule({
@@ -21,13 +25,15 @@ import { RegisterComponent } from './register/register.component';
         LoginComponent,
         HomeComponent,
         RegisterComponent,
-        RegisterComponent
+        RegisterComponent,
+        AddFeedComponent
     ],
     imports: [
         BrowserModule,
         FormsModule,
         HttpModule,
-        routing
+        routing,
+        Ng2Bs3ModalModule
     ],
     providers: [
         AuthGuard,

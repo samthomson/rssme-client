@@ -68,6 +68,16 @@ export class HttpService {
     //         );
     // }
 
+    getSubscriptions() {
+        let headers = new Headers({ 'Authorization': 'Bearer ' + this.sToken });
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.get(this.sAPI_BASE + '/app/subscriptions', options)
+            .map(
+                (response: Response) => response.json().subscriptions
+            );
+    }
+
     getFeedItems() {
         let headers = new Headers({ 'Authorization': 'Bearer ' + this.sToken });
         let options = new RequestOptions({ headers: headers });
@@ -75,32 +85,26 @@ export class HttpService {
         return this.http.get(this.sAPI_BASE + '/app/feeditems', options)
             .map(
                 (response: Response) => response.json().feeditems
-            )/*
-            .subscribe(
-                (data) => {
-                    console.log("got feeds: " + data);
-                    // this.feeds = data;
-                    return data;
-                    // this.feedsChanged.emit(this.feeds);
-                }
-            )*/;
+            );
     }
+
     addFeed(oNewFeed) {
 
         let url = this.sAPI_BASE + '/app/feeds/new';
-        let authToken = localStorage.getItem('auth_token');
-        let headers = new Headers({'Content-Type': 'application/x-www-form-urlencoded'});
+        let authToken = this.sToken;
+
+        let headers = new Headers();
+		headers.append('Content-Type', 'application/x-www-form-urlencoded');
         headers.append('Authorization', `Bearer ${authToken}`);
 
         let options = new RequestOptions({ headers: headers});
-
 
         let urlSearchParams = new URLSearchParams();
 
         urlSearchParams.append('name', oNewFeed.name);
         urlSearchParams.append('url', oNewFeed.url);
 
-        let body = urlSearchParams.toString()
+        let body = urlSearchParams.toString();
 
         return this.http.post(
             url,
@@ -108,11 +112,7 @@ export class HttpService {
             options
         )
         .map(
-            (response: Response) => {
-                let iNewFeedId = response.json().response.id;
-                //this.companyBrandingDataChanged.emit(this.branding);
-                return iNewFeedId;
-            }
+            (response: Response) => response.json()
         );
     }
 }
