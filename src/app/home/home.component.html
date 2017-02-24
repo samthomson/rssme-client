@@ -6,7 +6,7 @@
 <h3>subscriptions ({{aSubscriptions.length}})</h3>
 <!--{{aSubscriptions | json}}-->
 <div *ngIf="aSubscriptions.length > 0">
-    <a (click)="iCurrentFeed = null">all</a>
+    <a (click)="onLoadFeed(null)">all</a>
     <hr/>
     <div *ngFor="let feed of aSubscriptions">
         <a (click)="onLoadFeed(feed.feed_id)">{{feed.name}}</a>
