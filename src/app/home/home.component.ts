@@ -16,6 +16,8 @@ export class HomeComponent implements OnInit {
     @ViewChild('myModal')
     modal: ModalComponent;
 
+    private iPage = 1;
+
     constructor(
         private router: Router,
         private httpService: HttpService,
@@ -46,5 +48,18 @@ export class HomeComponent implements OnInit {
 
     onLogOut() {
         this.authService.logOut();
+    }
+
+    onLoadMore() {
+        // ask for more feed items, passing the id of the last feeditem we got as a cursor
+        let sCursor = this.aFeedItems[this.aFeedItems.length-1].id;
+        this.iPage++;
+
+        this.httpService.getFeedItems(this.iPage)
+            .subscribe(
+                (data) => {
+                    this.aFeedItems = this.aFeedItems.concat(data);
+                }
+            );
     }
 }

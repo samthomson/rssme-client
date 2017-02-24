@@ -78,11 +78,29 @@ export class HttpService {
             );
     }
 
-    getFeedItems() {
-        let headers = new Headers({ 'Authorization': 'Bearer ' + this.sToken });
-        let options = new RequestOptions({ headers: headers });
+    getFeedItems(cursor = null)
+    {
+        let jFeedItemParams = new URLSearchParams();
 
-        return this.http.get(this.sAPI_BASE + '/app/feeditems', options)
+        let headers = new Headers({ 'Authorization': 'Bearer ' + this.sToken });
+
+
+        if (typeof cursor !== 'undefined')
+        {
+            // send cursor to back end to get items afte
+            jFeedItemParams.set('cursor', cursor);
+        }
+        let options = new RequestOptions(
+            {
+                headers: headers,
+                search: jFeedItemParams.toString()
+            }
+        );
+
+        return this.http.get(
+            this.sAPI_BASE + '/app/feeditems',
+            options
+        )
             .map(
                 (response: Response) => response.json().feeditems
             );
