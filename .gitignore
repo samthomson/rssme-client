@@ -6,7 +6,7 @@
 
 # dependencies
 /node_modules
-/bower_components
+src/assets/compiled
 
 # IDEs and editors
 /.idea
