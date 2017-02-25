@@ -1,45 +1,52 @@
 
-<nav class="navbar navbar-default">
+<div id="header">
+    <span>Rssme</span>
+    <a href="#" class="manage-right-link link">Manage feeds</a>
+</div>
 
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Rssme</a>
+
+<div id="main-div" [ngClass]="{'showing-view': iOpenFeedId !== null}">
+
+    <div id="subscriptions" class="no-vertical-overflow">
+        <div *ngIf="aSubscriptions.length > 0">
+            <a (click)="onLoadFeed(null)">all</a>
+            <hr/>
+            <div *ngFor="let feed of aSubscriptions">
+                <a (click)="onLoadFeed(feed.feed_id)">{{feed.name}}</a>
+            </div>
         </div>
+    </div>
+    <div id="feed" class="no-vertical-overflow">
+        <div *ngIf="aFeedItems.length > 0">
+            <div *ngFor="let item of aFeedItems; let i = index">
+                <a (click)="onClickFeedItem(i)" class="link">{{item.title}}</a>
+            </div>
+        </div>
+    </div>
+    <div id="view" class="no-vertical-overflow">
+        <iframe
+            id="view-iframe"
+            *ngIf="iOpenFeedId !== null"
+            [src]="feedURL(aFeedItems[iOpenFeedId].url)"
+        ></iframe>
+    </div>
+</div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Manage feeds</a></li>
-            </ul>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-</nav>
-
+<!--
 <p>
   home feed, only when logged in
 </p>
 <a (click)="onLogOut()" stlye="cursor: pointer">log out</a>
 <hr>
 <h3>subscriptions ({{aSubscriptions.length}})</h3>
-<!--{{aSubscriptions | json}}-->
-<div *ngIf="aSubscriptions.length > 0">
-    <a (click)="onLoadFeed(null)">all</a>
-    <hr/>
-    <div *ngFor="let feed of aSubscriptions">
-        <a (click)="onLoadFeed(feed.feed_id)">{{feed.name}}</a>
-    </div>
-</div>
+
+
 
 <h3>items ({{aFeedItems.length}})</h3>
-<!--{{aFeedItems | json}} -->
-<div *ngIf="aFeedItems.length > 0">
-    <div *ngFor="let item of aFeedItems">
-        <a target="_blank" href="{{item.url}}">{{item.title}}</a>
-    </div>
-</div>
+
 <a class="btn btn-default" (click)="onLoadMore()">load more</a>
 <hr>
 
 <h3>add feed</h3>
 <app-add-feed></app-add-feed>
+-->

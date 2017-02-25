@@ -4,6 +4,8 @@ import { HttpService, AuthService } from './../services';
 
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
+import { DomSanitizer } from '@angular/platform-browser';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html'
@@ -18,12 +20,19 @@ export class HomeComponent implements OnInit {
 
     private iPage = 1;
     private iCurrentFeed = null;
+    private iOpenFeedId = null;
 
     constructor(
         private router: Router,
         private httpService: HttpService,
-        private authService: AuthService
-    ) { }
+        private authService: AuthService,
+        private sanitizer: DomSanitizer
+    ) {
+    this.sanitizer = sanitizer;  }
+
+    feedURL(s) {
+        return this.sanitizer.bypassSecurityTrustResourceUrl(s);
+    }
 
     ngOnInit() {
         // this.resetAddFeedForm();
@@ -86,6 +95,15 @@ export class HomeComponent implements OnInit {
                     this.aFeedItems = data;
                 }
             );
+    }
+
+    onClickFeedItem(iFeedIndex)
+    {
+        this.iOpenFeedId = iFeedIndex;
+    }
+    onCloseView()
+    {
+        this.iOpenFeedId = null;
     }
 
 }

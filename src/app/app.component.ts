@@ -5,7 +5,7 @@ import { HttpService, AuthService } from './services';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./../assets/compiled/compiled.css'],
   providers: [HttpService, AuthService]
 })
 export class AppComponent implements OnInit {
